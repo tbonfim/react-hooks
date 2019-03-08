@@ -10,6 +10,16 @@ export default function Greetings (props){
   useEffect(() => {
     document.title =  name + " " + lastName;
   });
+
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize );
+    return () => {
+      window.removeEventListener('resize', handleResize );
+    }
+  });
+
   function handleNameChange(e ) {
     setName(e.target.value);
   }
@@ -22,6 +32,11 @@ export default function Greetings (props){
       <Row>
         <Col xs="6"><input value={name} onChange={ handleNameChange} /></Col>
         <Col xs="6"><input value={lastName} onChange={ handleLastNameChange} /></Col>
+      </Row>
+      <Row>
+        <Col>
+          Width:  {width}
+        </Col>
       </Row>
     </Container>
     );
