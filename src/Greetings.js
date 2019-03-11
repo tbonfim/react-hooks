@@ -4,18 +4,34 @@ import './Greetings.scss';
 
 export default function Greetings (props){
   // change name and title
-  const [name, setName] = useState('Thiago');
-  const [lastName, setLastName] = useState('Bonfim');
+  const name = useFormInput('Thiago')
+  const lastName = useFormInput('Bonfim');
 
-  useEffect(() => {
-    document.title =  name + " " + lastName;
-  });
+  useDocumentTitle(name.value + ' ' + lastName.value);
 
-  function handleNameChange(e ) {
-    setName(e.target.value);
-  }
+  //resize
+  const width = useWindowWidth();
 
-  //resize 
+  return (
+    <Container className="App">
+      <Row> <h1>React Hooks</h1></Row>
+      <Row>
+        <Col xs="6"><input {...name} /></Col>
+        <Col xs="6"><input {...lastName} /></Col>
+      </Row>
+      <Row>
+        <Col>
+          Width:  {width}
+        </Col>
+      </Row>
+    </Container>
+    );
+}
+
+/*
+  Custom hooks
+*/
+function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -25,22 +41,24 @@ export default function Greetings (props){
       window.removeEventListener('resize', handleResize );
     }
   });
-  
-  function handleLastNameChange(e ) {
-    setLastName(e.target.value);
+  return width;
+}
+
+function useDocumentTitle(title) {
+  useEffect(() => {
+    document.title =  title;
+  });
+}
+
+function useFormInput (initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+  function handleChange(e) {
+    setValue(e.target.value);
   }
-  return (
-    <Container className="App">
-      <Row> <h1>React Hooks</h1></Row>
-      <Row>
-        <Col xs="6"><input value={name} onChange={ handleNameChange} /></Col>
-        <Col xs="6"><input value={lastName} onChange={ handleLastNameChange} /></Col>
-      </Row>
-      <Row>
-        <Col>
-          Width:  {width}
-        </Col>
-      </Row>
-    </Container>
-    );
+
+  return {
+    value,
+    onChange : handleChange
+  }
 }
