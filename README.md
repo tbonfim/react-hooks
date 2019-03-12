@@ -1,3 +1,7 @@
+# React Hooks implementation
+
+Based on [React Hooks Announcement] https://reactjs.org/docs/hooks-intro.html
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
